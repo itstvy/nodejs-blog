@@ -1,0 +1,19 @@
+npm i nodemon --save-dev
+Dùng nodemon để khi file có thay đổi thì nó sẽ tự động reload lại
+Không cần phải Ctrl C rồi chạy lại Server
+
+Thêm trong file package.json
+"scripts": {
+    "start": "nodemon index.js",
+}
+Lệnh chạy thay cho node index.js -> npm start
+
+Thêm --inspect vào
+"scripts": {
+    "start": "nodemon --inspect index.js",
+}
+để dùng devtool của nodejs, ta có thể debug ứng dụng trong đây
+
+Đẩy code lên git
+tạo file .gitignore để bỏ những cái không cần đẩy lên
+
