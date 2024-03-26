@@ -17,3 +17,70 @@ Thêm --inspect vào
 Đẩy code lên git
 tạo file .gitignore để bỏ những cái không cần đẩy lên
 
+----------------
+
+Thư viện morgan giúp quan sát được những cái log của những request
+từ phía client lên phía node server
+'HTTP request logger middleware for node.js'
+Việc mình request lên web nhưng không thể nhìn thấy những cái log gì,
+bạn không biết được rằng liệu server của bạn có nhận được request gì hay không
+--> thì morgan sẽ giúp bạn log cái request (logger cái http request)
+giúp bạn có thể thấy được cái log của những request gửi lên node server của bạn
+
+* middleware * - được hiểu là trung gian
+
+------------
+
+
+Template engines (handlebars)
+Giúp viết html ở những nơi khác gọn gàng hơn
+import 
+const { engine } = require("express-handlebars");
+
+//Template engine
+app.engine(
+  "hbs",
+  engine({
+    extname: ".hbs",
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "resources\\views"));
+
+Tạo các folder và file .hbs tương ứng
+
+
+--------------
+Tạo folder scss trong resources
+và  folder css trong public
+
+Dùng thư viện node-sass
+ npm i node-sass --save-dev
+--> mục đích để viết scss sau đó nó compile ra css
+--> ta sẽ KHÔNG code trong css mà code trong scss để nó biên dịch ra
+
+Thêm vào script
+ "scripts": {
+    "watch": "node-sass -w src/resources/scss/ --output src/public/css/",
+ }
+ Thêm file nodemon.json 
+
+
+----------------
+2 cách chạy project
+npm start để chạy nodejs - web server của nodejs
+npm run watch để lắng nghe sự thay đổi của file scss
+----------------
+
+Bootstrap 4
+Thêm CSS vào trước link css
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+Thêm Javascript bootstrap vào cuối sau thẻ đóng của trước body
+để tăng tốc độ load của website bởi vì nếu để lên trên head thì
+website render nó sẽ bị delay quá trình render
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
