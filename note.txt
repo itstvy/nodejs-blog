@@ -84,3 +84,400 @@ website render nó sẽ bị delay quá trình render
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
+---------------------------------
+Basic Routing
+Định nghĩa tuyến đường để có thể truy cập vào website
+URL sẽ sử dụng phương thức của giao thức HTTP (GET, POST, PUT, ... so on)
+Mỗi tuyến đường định nghĩa ra sẽ có thể có
+1 hoặc nhiều function handler ( 1 function để xử lý cái gì đó)
+Ở đây function này nó sẽ thực thi cái route của bạn
+khi user truy cập vào website nó sẽ match (khớp) với cái route của bạn
+Để định nghĩa cái route thì bạn tuân thủ theo cú pháp như sau:
+--> app.METHOD (PATH, HANDLER)
+
+app: khi dùng express thì mình import nó 
+xong rồi mình tạo biến app sau đó khởi chạy thực thi thằng express đó
+và express nó đã được xây dựng sẵn rồi, nó là framework
+và khi bạn chạy nó sẽ trả lại bạn một cái instance của ứng dụng của chúng ta
+
+METHOD: là một trong những cái phương thức của giao thức HTTP (như PUT PATCH GET DELETE,..)
+Và định nghĩa trong route thì nên viết METHOD dạng chữ thường vd: app.get
+
+PATH: là đường dẫn ở trên server của bạn/ định nghĩa tuyến tường trên source code trên nodejs
+Thực ra chính code nodejs mà ta đang code đây chính là ta đang code trên Server
+Khi ta npm start là nó đang khởi tạo web server trên chính máy chúng ta (localhost)
+Tuy nhiên sau này bạn cũng chạy như này nhưng chạy trên cái máy chủ
+mà các bạn thuê ở bên ngoài thì các bạn sẽ gọi là Remote host/ Cloud server / Remote server
+
+HANDLER: là 1 function (hàm) sẽ được excuted (thực thi) khi mà cái route của chúng ta nó khớp
+
+Ví dụ:
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+"/": là PATH
+(req, res) => {
+  res.render("home");
+} : là function handler, function này sẽ được gọi lại khi mà tuyến đường nó khớp
+
+req: shorthand của request: yêu cầu
+res: shorthand của response: phản hồi
+
+Nhắc lại giao thức HTTP:
+Khi bạn truy cập website bấm enter 1 cái nó sẽ gửi 1 cái yêu cầu lên trên server
+Thì cái biến request này cho sẽ chưá những cái thông tin mà cái ứng dụng của bạn 
+nó được gửi lên server:
+(
+  Inspect > Network > Header > General:
+Nó gửi lên cái url với cái path nó khớp với tuyến đường trên backend của hệ thống
+khi nó khớp với cái tuyến đường như vậy, nó sẽ lọt vào 1 cái function handler 
+và trong cái function handler nó sẽ nhận được 1 cái gọi là request
+như biến req.
+Thì biến req nó sẽ chứa tất cả những thông tin mà ứng dụng phía client nó yêu cầu lên trên server
+Thì dựa vào yêu cầu đó bạn sẽ biết là thằng client nó muốn lấy cái gì thì ta sẽ xử lý và trả lại cho cái đó
+
+Còn biến res: response
+Khi server nó nhận được cái request thì nó sẽ phải xử lý và khi nó xử lý xong
+thì ví dụ cần data thì nó sẽ trả về database để lấy dữ liệu và nó sẽ trả về client cho bạn
+thì việc trả về nó sẽ phải chờ 1 chút tùy vào tốc độ internet của bạn và tùy vào
+cái logic xử lý phức tạp hay ko phức tạp
+Và khi việc xử lý xong, nó trả về cho client thì nó chính là những cái dữ liệu
+trả về qua tab Response 
+
+Thì biến res nó sẽ giúp bạn có thể tùy chọn cấu hình setup 
+làm sao cho cái việc trả về client, trả về như thế nào, trả về cái gì 
+Ví dụ trả về status code: 304 hay trả về mã html... thì dùng biến response
+)
+(req, res) => {
+  res.render("home");
+}
+thì biến res chấm render như này là do bạn đang tích hợp với cái engine
+là handlebars để bạn có thể render ra views
+thì chính việc render này nó vẫn là việc quyết định trả về client cái gì
+ với thằng
+  res.render("home"); mặc đình trả về status code là 200
+  và nó sẽ trả về code html chứa ở trong file view.
+  ------------------------------------
+
+  GET METHOD - Get dùng để lấy dữ liệu từ SERVER trả về CLIENT  
+  GET xảy ra khi nào?
+  Khi truy cập vào 1 website or click vào thẻ a chứa link dẫn 
+  thì mặc định trình duyệt nó sẽ gửi đi phương thức là GET
+
+---------------------
+Query Parameter
+Thường sử dụng trong phương thức GET
+là khái niệm giúp bạn có thể truyền được dữ liệu qua chính URL của bạn
+Ví dụ: google.com/search?q= nodejs
+thì gg sẽ tìm kiếm nodejs thay vì mình vào gg rồi mới tìm kiếm nodejs
+
+google.com/search?q=nodejs
+
+app.get("/search", (req, res) => {
+  console.log(req.query.q);
+  res.render("search");
+});
+
+q=nodejs
+
+---------------------
+Default behavior of HTML forms - Tìm hiểu hành vi mặc định của forms trong HTML
+Khi tạo ra 1 cái form có 1 cái button type: submit
+có input có name="q" thì khi bấm nút button nó sẽ thực hiện hành vi gọi là submit
+và nó sẽ đính tất cả cái input có name ở trong form này lên thằng query parameter
+và với phương thức là GET.
+
+Hành vi là nó cứ lấy cái input có name thì nó lấy cái value của name đó
+và nó truyền lên URL dưới dạng query parameter kể cả ko nhập gì nó cũng truyền
+ví dụ:
+q= nodejs
+fullName= Vy Nguyễn
+age= 18
+
+Thì mặc định form nó sẽ là submit dưới cái METHOD là GET
+thì có cách nào để chỉ định cái METHOD GET hay POST,... cho form khi bấm nút submit hay không?
+==> CÓ
+
+ở form mặc định nó sẽ là GET
+nhưng nếu ta thêm <form method="POST">
+
+app.post("/search", (req, res) => {
+  res.render("search");
+});
+
+Sau đó bấm submit thì nó sẽ chuyển qua phương thức POST ngay.
+Tuy nhiên có 1 vấn đề, kể từ khi bấm submit thì khi ta có reload lại trang
+thì nó vẫn ở phương thức POST không còn là GET nữa.
+Chỉ khi ta truy cập vào lại website nó mới là GET
+==> bài sau sẽ nói rõ
+
+Quay lại form, khi search và submit 
+thì nó sẽ đính query parameter trên chính URL trang search như này
+http://localhost:3000/search?q=nodejs
+Thì đây là hành vi mặc định của form mà
+
+Nhưng giờ bạn lại muốn nó submit tại trang news thì làm sao?
+ở form mặc định action nó sẽ trống như sau: <form method="GET" action=""> 
+Cái action này nó thể hiện chúng ta sẽ submit ở đâu, ở URL nào!!!
+method là submit ở phương thức nào!!!
+
+Nếu bạn không nhập hoặc để trống action 
+thì mặc định nó sẽ ăn vào chính cái URL mà đang chứa cái form của bạn
+và nó đính cái query parameter tại URL đó
+
+Nếu hiện tại đang ở trang search nhưng action="/news"
+thì khi bạn search nodejs và submit ở trang search nó sẽ chuyển hướng đến trang news
+và nó mang theo cái query parameter theo lên trang news:
+http://localhost:3000/news?q=nodejs
+
+-----------------------
+POST method
+
+Sử dụng GET khi bạn muốn nhận dữ liệu từ SERVER trả về CLIENT
+==> POST thì ngược lại
+Bạn sẽ sử dụng method POST khi bạn muốn gửi dữ liệu từ phía CLIENT lên trên SERVER
+
+Trình duyệt, mobile app là phía Client
+API là phía Server
+Trong khóa này thì ta code ứng dụng gọi là Server Rendering
+
+Thêm và sửa
+ <form method="POST" action="">
+app.post("/search", (req, res) => {
+  res.send("");
+});
+
+sau đó search và submit với phương thức POST 
+thì nó cũng sẽ lấy cái thẻ mà có name=q nó sẽ submit dưới dạng form data
+không còn là query parameter nữa, không đính trên URL nữa vì nó là form data nó ẩn đi rồi
+
+Thêm chọn giới tính vào
+app.post("/search", (req, res) => {
+  console.log(req.body);
+  res.send("");
+});
+
+Ở bài trước khi ta req.query thì nó sẽ trả về
+nhưng bài này req.body nó sẽ trả về undefine lý do là express nó chưa tích hợp
+nên ta sẽ sử dụng middleware để xử lý cái sự submit lên form cho chúng ta bằng cách khai báo
+==> app.use(express.urlencoded());
+
+thêm 1 cái nữa vì đôi khi sẽ có trường hợp gửi dữ liệu từ client lên server
+1 là qua việc submit html như ta đang làm
+2 là qua việc bạn sử dụng những thư viện trong js
+hoặc là code js để bạn submit ví dụ như XMLHttpRequest, fetch, axios,...
+Tất cả những thằng đó nó sẽ gửi dữ liệu với method GET hay POST đều được
+và có thể gửi lên server chứ không phải dưới dạng form như ta đang làm nữa
+==> app.use(express.json());
+
+Tóm lại gửi dưới dạng html thì dùng ==> app.use(express.urlencoded());
+
+Gửi dưới dạng code javascript lên thì dùng ==> app.use(express.json());
+
+Giờ khi refresh lại cái body ta đang gửi là q và gender
+ thì ở terminal nó sẽ nhận được object
+{ q: 'nodejs', gender: 'Male' }
+ thay vì lúc nảy là undefine
+
+Tuy nhiên terminal có 1 cái warning: 
+body-parser deprecated undefined extended: provide extended option src\index.js:9:17
+
+Tức là nó bắt bạn phải cho 1 cái object có cái key là extended vào ở dòng 9
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+Thực ra nó là 1 cái options của cái thư viện thôi
+Bản thân thằng express có được cái phương thức urlencoded và json là vì nó sử dụng thư viện body-parser 
+nhưng do express phiên bản từ 4.16 đã tích hợp sẵn rồi nên không cần cài nữa
+
+Vậy thì tại sao thằng body-parser nó lại trả lại được cái body request
+vì nó sử dụng thằng qs - viết tắt: querystring 
+nó làm nhiệm vụ parser ra cho bạn từ những cái như
+a = c thì nó sẽ parse ra object là a: "c" 
+
+-----------------------------
+
+Mô hình MVC
+M: Model
+V: View
+C: Controller
+Mô hình này được sử dụng rất nhiều khi bạn xây dựng ứng dụng chạy phía backend 
+Ví dụ: Nodejs, PHP, Java, Ruby,...
+Hiệu quả của mô hình MVC là gì?
+Bình thường nếu không theo mô hình thì bạn sẽ BẠ đâu CODE đấy
+Nhưng nếu dự án lớn thì sao quản lý được?
+
+Thì cái ưu điểm của mô hình MVC là việc bóc tách thành phần cho bạn
+ra thành 3 thành phần chính là Model, View, Controller
+View: chỉ chứa thành phần file view (HTML/CSS) thôi
+Model: là thành phần tương tác với data source, resource của ta thôi để ta tương tác lấy ra dữ liệu
+Controller: là thành phần trung chuyển giữa View và Model, thì tại sao như vậy?
+
+Giả dụ khi gõ vào trình duyệt 1 cái website thì nó sẽ request lên server với HTTP protocol
+Đi qua Server bắt đầu nó đi lên tầng Routes sau đó nó đi đến tầng Dispatcher
+nghĩa là hành vi gọi sang Controller
+
+Khi routes định tuyến được đúng cái tuyến đường ta cần thì nó sẽ chọt vào thằng Controller tương ứng
+Ví dụ ở trang chủ ta cần lấy dữ liệu 
+Thì khi nó đi đến Controller của trang chủ và trong trang chủ ta cần lấy dữ liệu
+
+Thì thằng Controller nó sẽ tương tác với thằng Model để nó lấy ra dữ liệu ở database MySQL hay MongoDB,..
+Nó lấy xong nó để vào Controller sau đó nó gọi sang View để lấy View tương ứng 
+sau đó nó xử lý và nó đứng ở Controller nó lấy data từ Model sau đó truyền sang View
+Khi đó nó sẽ lấy được View hoàn chỉnh bao gồm dữ liệu vừa lấy 
+Và bắt đầu nó trả về cho Client, đi qua Server trả về qua Response qua HTTP protocol
+Trình duyệt nhận được và hiển thị ra website
+
+Nắm được cái mô hình này thì triển khai code dễ dàng!!!
+
+----------------------------
+Ôn lại kiến thức
+Khi bạn đứng tại trình duyệt tức là đang đứng ở Browser chính là Client
+thì làm thể nào để gửi 1 cái Request lên Server? 
+Chính là việc ta truy cập vào website đó (nhập url và enter)
+==> Hành động truy cập website là làm được việc đứng từ Client gửi Request lên Server 
+
+Bạn biết được rằng website trên chính máy của bạn gọi là: Local host 
+và khi bạn muốn website mà người dùng có thể truy cập vào được 
+thì thường thường bạn sẽ đi mua/thuê 1 cái Hosting đúng chứ?
+
+Local host và Hosting chính là 1, là host, là server, cùng đóng 1 vai trò nhiệm vụ thôi
+==> Hosting là gì? Là nơi để lưu trữ 
+
+Local là cục bộ, là máy tính của bạn và bạn đang run 1 cái host trên chính máy của bạn
+Thì đây là cái host nằm trên cái máy cục bộ của bạn
+==> Thì bản thân cái local host nó cũng đóng vai trò là 1 Server
+
+----------------------------
+MVC - Routes & Controllers
+Thay đổi SourceCode đi theo mô hình MVC
+
+Tóm lại ta đã tạo được cái web server listening port 3000
+Giờ từ Web Server --> vào Route như thế nào? Routes là gì?
+
+Khi bạn start lên Web Server thì với thằng Nodejs nó sẽ chọc vào cài entry point của chúng ta
+tức là thằng index.js và nó nạp tất cả những cái nội dung trong file index.js này vào trong bộ nhớ RAM
+Thì mình đang đứng ở Web Server và chọc vào thằng Routes thì chọc như thế nào?
+
+Nếu code thuần thì phải tự code ra thằng Routes nhưng ta đang sử dụng Framework Express
+thế nên nó không những cấu hình Web Server mà còn nó còn cấu hình cho cả Routes
+
+Thì Routes nó chính là thằng bạn đang dùng đây:
+==> app.post("/search")
+app: là nhận từ express
+.post: chấm phương thức (GET, POST, PUT, DELETE,...)
+/search :và định nghĩa là cái đối số dưới dạng cái tuyến đường, cái routes name
+
+Thì đó chính là việc đang sử dụng thành phần Routes
+và từ Routes nó đi đến Dispatcher 
+
+Dispatcher là gì?
+Khi cái routes bạn truy cập vào website các bạn gõ /search 
+nó sẽ chọc lên Web Server > sẽ chọc vào Entry point index.js của ta đã được nạp vào bộ nhớ
+nó sẽ đọc được đoạn này:
+
+app.get("/search", (req, res) => {
+  res.render("search");
+});
+và nó thấy match với nhau thì lập tức nó sẽ execute (thực thi) cái function: 
+
+(req, res) => {
+  res.render("search");
+}
+
+Hành vi bạn truy cập vào path này: app.get("/search")
+thì nó gọi là Action - Hành động
+
+Thì đứng giữa Action này nó có 1 cái gọi là Dispatcher và đằng sau nó là Function Handler
+Action --> Dispatcher --> Function Handler
+
+Function Handler: hàm xử lý 
+(req, res) => {
+  res.render("search");
+} --> đây là hàm xử lý được truyền dưới dạng callback 
+
+Tại sao khớp Action thì thằng Function Handler lại chạy?
+Vì đứng ở giữa là Dispatcher nó sẽ đọc cái Action nó thấy "à khớp rồi"
+nó sẽ thực thi Function Handler 
+
+Trong mô hình MVC, thằng Routes chọc vào Dispatcher, Dispatcher chọc vào Controller 
+Thì Controller nó chính là thằng Function Handler này
+(req, res) => {
+  res.render("search");
+}
+
+Nếu như bạn mang thành phần này vào 1 thư mục Controller viết function này vào file js nào đó 
+và bạn import nó ra đưa vào index.js thì lúc đó bạn hiểu bạn đã tách được thành phần Controller này ra ngoài
+
+Bạn đã biết Controller nó tương tác với View và Model
+Thì đây Controller - Function Handler, tương tác với View 
+(req, res) => {
+  res.render("search");
+}
+Ta thấy với cái path này ta cần tải ra/render ra cái View là search năm trong resources/views/search.hbs
+==> Đây chính là tương tác giữa Controller với View
+
+Controller tương tác với Model như nào? Bài sau nói !!!
+Trong bài này ta sẽ tách Routes, Controller, Model ra những thư mục khác
+
+-------------------------------
+Tạo thư mục Routes, app/controllers trong src
+Làm thế nào viết được những file trong mục routes, controllers
+
+Ví dụ news: tạo 1 file new.js trong routes và NewsController.js trong controller
+Bây giờ việc của chúng ta là bóc tách đoạn này
+app.get("/news", (req, res) => {
+  res.render("news");
+});
+
+app.get("/news",==> ta sẽ đưa vào news.js
+
+(req, res) => {
+  res.render("news");
+}); ==> ta sẽ đưa vào NewsController
+
+Giờ viết NewController.js trước
+tạo ra 1 class NewsController {
+  viết 1 cái method cho nó
+  cần 1 cái phương thức để đại diện cho function handler này 
+  phương thức này nó lấy ra trang chủ của tin tức thì đặt là index
+}
+
+" class NewsController {
+  // [GET] /news
+  index(req, res) {
+    res.render("news");
+  }
+}
+
+module.exports = new NewsController(); //tạo ra 1 đối tượng của NewsController và exports ra ngoài "
+file NewsController chút nữa sẽ required nó vào src/index.js
+Tạo file routes/index.js mục đích là chuyển hết code trong src/index.js cũ qua (Đã code)
+
+-------------------------
+Giờ cấu hình file route cho thằng news
+Vào đây tham khảo cách viết https://expressjs.com/en/4x/api.html#router.use
+
+Nó sẽ hướng dẫn bạn cách viết 1 cấu hình route tách ra ngoài 
+Học được thư mục routes và controller
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,259 @@
+Frontend: Giao diện người dùng
+Ví dụ: viết 1 trang web tin tức, thì ở FE mình hiển thị giao diện
+Backend: Xây dựng logic xử lý, database
+Thì BE sẽ làm công việc như lưu trữ DL ra sao? 
+Đưa DL lên web như thế nào?
+
+Thì mình sẽ làm sao lấy nội dung DL lưu trữ ở phía BE
+Và chuyển cho FE để FE nhận và hiển thị lên giao diện web cho người dùng
+
+Thì mình phải fetch(truy xuất) được DL để lấy được cái nội dung lưu trữ từ phía BE, sau đó chuyển sang cho FE và FE sẽ hiển thị ra
+Cơ chế xử lý là vậy.
+
+Thì ta sẽ có khái niệm gọi là API
+API - Application Programming Interface
+
+API là cổng giao tiếp giữa các PM với nhau
+Cụ thể là ở phía BE sẽ xây dựng ứng dụng và sẽ có thiết kế CSDL (CSDL dùng SQL, MySQL, Oracle,... tất cả các hệ quản trị CSDL) 
+tức là phía BE sẽ xử lý như vậy. Xây dựng ứng dụng xong
+Thì mình phải làm sao đó mình cho các cái PM khác sẽ giao tiếp được với DL của mình, truy xuất sử dụng được DL của mình
+
+==> Thì để làm được như vậy nên phía BE họ mới tạo ra các cái API
+
+Thì thực chất các API này sẽ là gì?
+Nó sẽ là các cái URL (link) để lấy DL và hiển thị lên cái trang web.
+Tức là nó sẽ cung cấp cho mình 1 cái trang xử lý gì đó/cổng giao tiếp gì đó 
+để có thể là từ cái phương thức giao tiếp này nó sẽ trả về cho mình DL để hiển thị lên giao diện
+
+
+Vậy thì API nó sẽ là một cái cổng giao tiếp giữa các PM hoặc là nói cách khác là 
+khi mà BE muốn lấy DL đưa lên cho FE hoặc là đưa lên cho Ứng dụng khác thì BE sẽ phải xây dựng các cái API
+
+Thì các API nó là các cái URL dùng để fetch DL (truy xuất DL) qua dạng là XML, JSON
+Có thể là lấy DL từ database của mình lên sẽ chuyển sang dạng XML hoặc là JSON
+
+
+JSON: thì ở phía BE sẽ tạo ra các API để fetch DL qua dạng XML or JSON vì nó rất đơn giản, 
+nó nhẹ và nó lưu trữ được DL của mình
+
+Từ dạng XML or JSON đó thì nó sẽ chuyển thành cái javascript
+và từ các cái javascript nó có thể render ra được cái dạng html cho mình
+
+Mình role tester mình sẽ đi vào test các cái API đó xem cái API có đúng với mô tả, đúng với chức năng của nó hay không.
+
+Nếu bạn là dev thì sau khi bạn viết xong 1 chức năng nào rồi thì các bạn sẽ sử dụng cái API để bạn test xem lấy DL đúng hay không?
+chức năng chạy đúng hay không? thì bạn cũng sẽ tạo API và bạn đi test xem các API có chạy được hay không? 
+Nếu API chạy đúng theo ý của bạn thì chức năng mình chạy đúng.
+
+==> Ý nghĩa của việc test API
+
+Để test API thì PHẢI có API - Lấy api mẫu ở reqres.in/api
+và Postman - Cài và đăng nhập Postman
+Chú ý các tab quan trọng: Workspaces - Phạm vi làm việc của mình
+1. Tạo mới workspaces mới vd: Demo-API Testing
+Trong đó có
+Collection: các project của bạn
+Environment: là môi trường vd bạn test trên các môi trường khác nhau thì ta sẽ cài đặt môi tường để chạy môi trường đó
+
+Giờ ta có 1 cái API GET Single User
+thì API là URL nên ta copy https://reqres.in/api/users/2
+
+Sau đó ta tạo mới 1 cái Request (Click + kế Overview)
+Chọn phương thức GET và paste URL vào
+Từ URL đó nhấn SEND nó sẽ lấy nội dung được lưu trữ trong API đó và nó sẽ trả về cho mình. 
+Thì ở đây nó sẽ trả về 1 cái user người dùng nào đó.
+Thì ở đây ta sẽ làm quen với cái dạng GET là mình lấy dữ liệu về.
+
+Giả sử khi lấy về như lúc nảy và bấm Save (Lưu lại). Nó sẽ hiển thị ra 2 trường Request Name và Collection Name
+Giả sử mình đặt tên là
+Request Name: GetUser
+Và hiện tại chưa có Collection thì mình tạo 1 cái ví dụ: Example
+Sau đó lưu lại và nó sẽ hiển thị ra
+
+Rồi tiếp tục ta new mới 1 cái Request nữa, ta sẽ Request 1 cái POST Login Successful
+Login thì nó là dạng Post - mình sẽ kiểm tra nó đăng nhập thành công hay không
+Giả sử user đăng nhập với cái thông tin như này
+{
+    "email": "eve.holt@reqres.in",
+    "password": "cityslicka"
+}
+Thì nó sẽ trả về thông tin là đăng nhập thành công như sau
+{
+    "token": "QpwL5tke4Pnpja7X4"
+}
+Thì giờ mình đi lấy API https://reqres.in/api/login paste vào chọn phương thức POST
+Đăng nhập thì mình phải truyền vào thông tin cho nó thì đây là thông tin
+
+{
+    "email": "eve.holt@reqres.in",
+    "password": "cityslicka"
+}
+Đây là dạng Json thì chọn Raw dạng Json paste vào ấn Send
+Nếu nó trả về chuỗi như sau thì đăng nhập thành công
+{
+    "token": "QpwL5tke4Pnpja7X4"
+}
+
+Giờ mình sẽ cần nắm là khi bạn chạy thì nó sẽ hiển thị thời gian chạy 
+Time: 625ms
+Status: 200 OK - là thành công đó
+Thì khi mình testAPI mình sẽ làm gì? 
+Thì với API bạn sẽ xem các cái hành động thêm/sửa/xóa của nó, lấy dữ liệu của nó có đúng với mô tả hay không
+Đó là mình đi kiểm tra những cái thành phần như vậy
+Thì với method POST là mình thêm dữ liệu vào, PUT là sửa, DELETE là xóa dữ liệu
+Lưu lại Request Name: PostLogin trong Collection: Login- Nhớ tạo Collection mới: Login
+
+==> Đó là mình đã tạo thử 2 cái GET/POST API
+
+Giả sử có thêm 1 cái POST Register Successful nữa đi
+https://reqres.in/api/register
+Mình truyền vào thông tin như hướng dẫn:
+{
+    "email": "eve.holt@reqres.in",
+    "password": "pistol"
+}
+Thì khi mình chạy nó sẽ tạo ra 1 cái tài khoản mới
+{
+    "id": 4,
+    "token": "QpwL5tke4Pnpja7X4"
+}
+Lưu lại vào trong Collection: Login
+Thì lúc này trong Login có 2 cái Request POST, thì giả sử sau này có 5, 10 cái Request
+Mình muốn chạy hết thì mình chạy chung 1 lần luôn bằng cách ở Collection: Login bấm Run Collection
+Trong đó nó sẽ hiện ra các Request và hỏi mình muốn chạy cái nào, 
+chạy bao nhiêu lần, chạy trên môi trường gì thì tự xử, tự thiết lập môi trường
+Nếu chưa thiết lập môi trường thì nó sẽ chạy giả lập trên máy mình thôi 
+
+Iterations - Lặp lại bao nhiêu lần
+Delay 
+
+Ví dụ thường có những API nó tương tác với DL lớn thì khi tương tác xong 
+thì nó phải chờ thời gian để Server sẽ trả DL hay cập nhật DL gì đó thì lúc đó nó sẽ cần có thời gian
+
+Ví dụ mình chạy 2 lần, thì sau khi chạy lần thứ nhất thì nó cần có thời gian chờ 
+sau đó nó mới chạy lần thứ 2 thì mình để Delay
+
+Trong cái project nó có nhiều cái Request, mình cho nhiều Request chạy 1 lần
+thì mình sẽ xây dựng được các cái cho các cái chức năng mình đưa ra
+Tức là ta đưa vào, ta thiết kế các API để nó chạy API đó
+Nhưng đó là trong trường hợp những cái API đó đã được tạo sẵn
+Còn nếu trong trường hợp không có API thì sao?
+Mình sẽ phải tự viết ra API đó
+Vì nếu là dev làm xong chức năng và muốn test chức năng đó thì phải viết 1 cái API
+Và sau khi tạo ra API đó rồi thì mình sẽ kiểm thử cái API đó
+
+Giờ không có API thì phải làm sao? TỰ VIẾT
+
+JSON: Javascript Object Notation
+Nó là định dạng cái DL cho phép mình thể hiện các DL ra bên ngoài
+và cái định dạng này nó rất là nhẹ, cho nên từ cái JSON đó nó sẽ render ra HTML cho mình
+
+Vấn đề tiếp theo, hiện tại mình chỉ test trên máy mình
+API có URL là localhost:3000/search gì đó mình đã test trên cái Postman trong cái Collection nào đó
+Giả sử bạn có 10, 20 cái Request nhưng nếu URL nó thay đổi, không còn là localhost:3000 gì đó nữa
+Chẳng lẽ bạn đi mở từng Request ra sửa URL sao? Thì để giải quyết điều này nó sẽ có phần gọi là
+
+==> Thiết lập biến môi trường trong Postman 
+Mình sẽ vào thiết lập biến cho môi trường, hoặc thiết lập biến để sử dụng 
+Đây là tính năng của Postman cho các biến DL giống nhau để có thể tái sử dụng ở nhiều chỗ khác nhau 
+
+VD thay vì để localhost:3000 thì để 1 cái biến URL đi
+Sau này thay đổi giá trị trong biến URL thôi
+
+Cách sử dụng biến trong Postman!!!
+Thì có 2 loại biến:
+1 là biến global - dùng cho toàn cục
+2 là biến trong 1 cái project thôi
+
+Nếu sử dụng biến trong project thôi thì đi vào project ví dụ Login
+Collection: Login > Edit > Variables > Add new variable > điền vào url
+> initial variable: http://localhost:3000 > save lại
+Quay ra thay đổi từ https://reqres.in/api/login thành {{url}}/login chạy lại là OK
+
+
+Nếu sử dụng biến dùng cho toàn cục thì sao?
+Bên góc trên bên phải Postman kế No Environment có con mắt bấm dô
+Chọn Globals > add > Variable: demo_url > giống trên kia
+
+==> Sau này khi muốn thay đổi API URL thì chỉ cần dô sửa giá trị trong biến đó là được
+
+Cách viết test script trong Postman
+Postman nó cung cấp cơ chế thực thi dựa trên NodeJS 
+cho phép thêm các xử lý vào Request và Collection
+Cơ chế này giúp ta có thể viết Test Suite, tạo các Request chứa tham số động, truyền DL giữa các Request
+
+Tìm hiểu Get và Set giá trị trong Postman
+Thì các cái Request có thể thêm vào các cái đoạn test script xử lý
+
+Viết js để thực thi các cái điều kiện DL của mình, trong 2 sự kiện:
++ Script được thực thi trước khi Request gửi lên Server - sự kiện này đặt tại tab Pre-request Script
++ Script được thực thi sau khi Request đã hoàn thành và nhận được Response - sự kiện này đặt tại tab Tests
+
+Thì trong Postman nó sẽ có sẵn 1 số cái hàm xử lý để mình mô tả gọi là Script Test
+Trong tab Tests mình sẽ đi tìm hiểu 1 số đoạn Script test nó đã viết sẵn
+Ví dụ lấy giá trị của cái biến demo_url = https://reqres.in/api
+Tạo Request GET mới 
+Dùng API: {{demo_url}}/users/2 phương thức GET > tab Tests > Scroll xuống xíu Get a Variable
+Như thế này: pm.variables.get("variable_key");
+Mình sẽ thay đổi thành: pm.variables.get("demo_url"); 
+
+Nhưng nếu mình chỉ ghi câu lệnh này thôi thì nó sẽ không có hiển thị cho mình biết là trả về cái gì hết
+Nên thêm 
+console.log(pm.variables.get("demo_url")); và ấn send
+Mở console bên góc trái dưới lên xem 
+là nó sẽ hiển thị cho mình thấy giá trị của biến là: https://reqres.in/api
+
+Có thể thêm vào 
+console.log("Gia tri bien la: ",pm.variables.get("demo_url"));
+
+Nó sẽ hiển thị:  
+Gia tri bien la: 
+https://reqres.in/api
+
+Ví dụ gán giá trị cho 1 biến thì chọn: Set a global variable:
+pm.globals.set("variable_key", "variable_value");
+và mình sẽ thay tên của biến và giá trị mình muốn gán là gì
+Ví dụ: pm.globals.set("url2", "http://localhost:3000")
+ 
+Thiết lập biến môi trường thì sao? Ta sẽ Giả lập các biến môi trường khác nhau
+Ví dụ có 1 cái môi trường để kiểm thử, môi trường để làm thực tế,..
+Bấm vào con mắt kế No Environment > Ở Environment bấm Add
+và đặt tên Vd: E1
+
+Trong cái E1 này mình sẽ có những cái biến để xử lý
+VD trong cái PostLogin, khi mình thêm 1 tài khoản vào đó nó sẽ có email, password
+Thì lúc này tại biến môi trường E1 ta sẽ thiết lập cho nó các biến 
+và truyền giá trị vào cho nó
+email: abc@gmail.com
+password: mobi1234
+
+Thì sau khi thiết lập các biến này trong môi trường E1 này và mình sẽ cho cái PostLogin
+nó chạy các cái biến đó trên môi trường E1 này, thì nó sẽ sử dụng cái giá trị của các biến đó
+
+Tạo PostLogin mới và ta sẽ điền thông tin và chọn môi trường E1 tại No Environment
+{
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+
+ NÓI CHUNG TỰ TÌM HIỂU
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
