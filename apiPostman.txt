@@ -7,7 +7,8 @@ Thì BE sẽ làm công việc như lưu trữ DL ra sao?
 Thì mình sẽ làm sao lấy nội dung DL lưu trữ ở phía BE
 Và chuyển cho FE để FE nhận và hiển thị lên giao diện web cho người dùng
 
-Thì mình phải fetch(truy xuất) được DL để lấy được cái nội dung lưu trữ từ phía BE, sau đó chuyển sang cho FE và FE sẽ hiển thị ra
+Thì mình phải fetch(truy xuất) được DL để lấy được cái nội dung lưu trữ từ phía BE, 
+sau đó chuyển sang cho FE và FE sẽ hiển thị ra
 Cơ chế xử lý là vậy.
 
 Thì ta sẽ có khái niệm gọi là API
@@ -238,16 +239,128 @@ Tạo PostLogin mới và ta sẽ điền thông tin và chọn môi trường E
 
  NÓI CHUNG TỰ TÌM HIỂU
  
+ --------------------------------
+ 
+Ví dụ:
 
+Gửi yêu cầu GET để lấy thông tin sản phẩm:
 
+GET /products/1 HTTP/1.1
 
+Host: www.example.com
 
+Accept: application/json
 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJhcmQifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 
+Cookie: sessionid=1234567890
+Header request:
 
+Host: tên miền của server.
+Accept: định dạng dữ liệu được yêu cầu (JSON trong ví dụ này).
+Authorization: token xác thực người dùng.
+Cookie: cookie được sử dụng để theo dõi phiên làm việc của người dùng.
 
+--------------------------
 
+Body request:
 
+Không có trong trường hợp GET request.
+Gửi yêu cầu POST để tạo sản phẩm mới:
+
+POST /products HTTP/1.1
+
+Host: www.example.com
+
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJhcmQifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+Body:
+
+{
+  "name": "Sản phẩm mới",
+  "description": "Mô tả sản phẩm mới",
+  "price": 100000
+}
+Header request:
+
+Host: tên miền của server.
+Content-Type: định dạng dữ liệu được gửi (JSON trong ví dụ này).
+Authorization: token xác thực người dùng.
+Body request:
+
+Chứa dữ liệu sản phẩm mới được tạo.
+
+------------------------------
+
+Thêm về Status Code
+1. Phân loại Status Code:
+
+1xx: Informational: Thông báo về trạng thái tạm thời của yêu cầu.
+2xx: Success: Yêu cầu thành công.
+3xx: Redirection: Yêu cầu cần được chuyển hướng đến một URL khác.
+4xx: Client Error: Lỗi do phía client.
+5xx: Server Error: Lỗi do phía server.
+2. Một số Status Code phổ biến:
+
+200 OK: Yêu cầu thành công và dữ liệu được trả về.
+201 Created: Yêu cầu thành công và tài nguyên mới được tạo.
+202 Accepted: Yêu cầu được chấp nhận nhưng chưa được xử lý.
+204 No Content: Yêu cầu thành công nhưng không có dữ liệu để trả về.
+301 Moved Permanently: Tài nguyên được chuyển hướng vĩnh viễn đến một URL khác.
+302 Found: Tài nguyên được chuyển hướng tạm thời đến một URL khác.
+400 Bad Request: Yêu cầu lỗi do cú pháp sai hoặc dữ liệu không hợp lệ.
+401 Unauthorized: Yêu cầu không được ủy quyền.
+403 Forbidden: Yêu cầu bị cấm do quyền truy cập không đủ.
+404 Not Found: Tài nguyên không được tìm thấy.
+500 Internal Server Error: Lỗi do phía server, ví dụ như lỗi ứng dụng hoặc lỗi cơ sở dữ liệu.
+503 Service Unavailable: Server đang bận hoặc không thể xử lý yêu cầu.
+
+------------------------
+Authorization là gì? 
+Token là gì? 
+Cookie là gì? 
+==> Tester sẽ làm gì với 3 thành phần này?
+
+Authorization: là quá trình xác minh danh tính của người dùng 
+và cấp quyền truy cập vào các tài nguyên của hệ thống.
+Nó thường được sử dụng trong các ứng dụng web, API và các hệ thống khác 
+để đảm bảo chỉ những người dùng được phép mới có thể truy cập vào dữ liệu và chức năng của hệ thống.
+
+Ví dụ:
+Giả sử bạn có một ứng dụng web cho phép người dùng đăng nhập và xem thông tin tài khoản của họ. 
+Khi người dùng đăng nhập thành công, ứng dụng web sẽ tạo ra một token và gửi token này đến trình duyệt của người dùng. 
+Sau đó, người dùng sẽ sử dụng token này trong các yêu cầu tiếp theo để truy cập vào thông tin tài khoản của họ.
+
+Tester sẽ kiểm tra xem ứng dụng web có xác thực người dùng chính xác hay không 
+bằng cách gửi các yêu cầu với thông tin Authorization không hợp lệ. 
+Tester cũng sẽ kiểm tra xem người dùng có được phép truy cập vào các tài nguyên của hệ thống hay không 
+bằng cách gửi các yêu cầu với token không cấp quyền truy cập vào các tài nguyên đó.
+
+----------------------------
+Token: là một chuỗi ký tự được sử dụng để xác thực người dùng 
+và cấp quyền truy cập vào các tài nguyên của hệ thống.
+Token thường được tạo ra bởi Server và gửi đến Client sau khi người dùng đăng nhập thành công. 
+Client
+
+Tester sẽ kiểm tra xem token có hợp lệ hay không bằng cách gửi yêu cầu đến server với token. 
+Server sẽ trả về lỗi nếu token không hợp lệ. 
+Tester cũng sẽ kiểm tra xem token có cấp quyền truy cập vào các tài nguyên của hệ thống hay không 
+bằng cách gửi yêu cầu đến server với token và yêu cầu truy cập vào các tài nguyên đó. 
+Server sẽ trả về lỗi nếu token không cấp quyền truy cập vào các tài nguyên đó.
+
+--------------------------
+Cookie: là một tập tin nhỏ được lưu trữ trên trình duyệt của người dùng bởi Server.
+Cookie có thể được sử dụng để lưu trữ thông tin về người dùng, 
+chẳng hạn như tên người dùng, ID phiên hoặc các cài đặt ưu tiên.
+Cookie cũng có thể được sử dụng để theo dõi hoạt động của người dùng trên trang web.
+
+=> Tester sẽ kiểm tra xem cookie có được lưu trữ chính xác trên trình duyệt hay không 
+bằng cách kiểm tra cookie trong trình duyệt. 
+=> Tester cũng sẽ kiểm tra xem cookie có được sử dụng để theo dõi hoạt động của người dùng hay không 
+bằng cách truy cập vào các trang web khác nhau 
+và kiểm tra xem cookie có được cập nhật hay không.
 
 
 

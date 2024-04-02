@@ -91,7 +91,7 @@ URL sẽ sử dụng phương thức của giao thức HTTP (GET, POST, PUT, ...
 Mỗi tuyến đường định nghĩa ra sẽ có thể có
 1 hoặc nhiều function handler ( 1 function để xử lý cái gì đó)
 Ở đây function này nó sẽ thực thi cái route của bạn
-khi user truy cập vào website nó sẽ match (khớp) với cái route của bạn
+khi user truy cập vào website nó sẽ match (khớp) với cái route của bạn.
 Để định nghĩa cái route thì bạn tuân thủ theo cú pháp như sau:
 --> app.METHOD (PATH, HANDLER)
 
@@ -462,7 +462,138 @@ Giờ cấu hình file route cho thằng news
 Vào đây tham khảo cách viết https://expressjs.com/en/4x/api.html#router.use
 
 Nó sẽ hướng dẫn bạn cách viết 1 cấu hình route tách ra ngoài 
+
 Học được thư mục routes và controller
+src/index.js  -- Truyền instance express vào route: route(app) 
+routes/index.js -- app.use("/news", newsRouter); 
+nó sẽ sử dụng (use) newsRouter cho path nó match (khớp) là /news và siteRouter thì dùng cho path nó match là /
+path sẽ đọc từ trên xuống 
+Thì khi match với /news/ nó sẽ chọc vào thằng newsRouter nó sẽ đọc ở file news.js (newsRouter cấp con của news)
+Thì nó sẽ xem router nó match với tuyến đường nào, ví dụ http://localhost:3000/news/
+Thì nó hiểu là khớp (match) với thằng "/" :
+router.use("/", newsController.index); 
+và lao vào function handler index mà ta đã viết ở NewsController
+  index(req, res) {
+    res.render("news");
+  }
+
+--------------------------------
+
+Cài MongoDB - vào mongodb.com/try
+Tìm MongoDB Compass: nó chính là MongoDB Client để bạn có thể truy xuất được vào database của các bạn
+Tìm MongoDB Community Server, để nguyên cấu hình đừng đổi, bấm download
+
+Thư mục lưu cấu hình cài
+C:\Program Files\MongoDB\Server\7.0\data\
+C:\Program Files\MongoDB\Server\7.0\log\
+Cài xong nó sẽ mở MongoDB Compass đây chính là cái Client tool
+để bạn có thể connect được với thằng MongoDB. MongoDB sau khi cài xong thì nó sẽ chạy ngầm
+
+Mặc định nó sẽ chạy ở localhost:27017
+Giờ việc của mình sẽ dán chuỗi connection vào 
+mongodb://localhost:27017 bấm connect
+
+---------------------------
+Prettier - Lint-staged - Husky
+
+Tìm hiểu về thư viện Prettier giúp trình bày code đẹp hơn gọn hơn
+và kết hợp thêm 2 thằng nữa là: lint-staged và husky dùng cho team 
+giúp cho ta khi commit code lên thì thằng Prettier sẽ chạy
+(Vì cho dù các thành viên trong team có trình bày code lệch lạc, lộn xộn
+thì cuối cùng khi họ commit code lên Git thì sẽ được thằng Prettier đưa về 1 quy chuẩn mà do chúng ta cấu hình)
+
+Lint-staged: giúp bạn chạy 1 cái dòng lệnh trên những file được add vào git (file chưa được add thì nó không chạy)
+Husky: cung cấp cho chúng ta các cái hooks (hooks)
+==> cài lệnh: npm i prettier lint-staged husky --save-dev
+==> Dùng extension cho lẹ
+
+--------------------------
+
+MVC - Routes & Controllers
+Thay đổi SourceCode đi theo mô hình MVC
+Chúng ta đã bóc tách thành phần ra thư mục Routes (để chứa những cái định nghĩa tuyến đường cho phép truy cập website)
+và Controller rồi. View thì đã làm trước rồi nằm trong Resources/Views
+
+Giờ ta sẽ làm tiếp phần Model !!!
+Làm quen với Compass và tạo Database 
+Tìm hiểu và cài đặt Mongoose
+Connect - Kết nối to  Mongo Database
+Create - Tạo Model
+
+Nhắc lại MongoDB Compass là 1 cái Client giúp bạn connect được tới Server MongoDB
+Mở MongoDB Compass > Connect > Create Database 
+
+Database Name: f8_education_dev
+Collection: courses (Collection cũng gần giống như table bên MySQL)
+Trong courses > Add data > Insert Document > Add field > Insert
+{
+  "_id": {
+    "$oid": "660baad537ec3360370a234c"
+  },
+  "name": "Xây dựng web với NodeJS & ExpressJS",
+  "description": "Học Back-end với Node & ExpressJS framework, hiểu các khái niệm khi làm Back-end và xây dựng RESTful API cho trang web.",
+  "image": "https://files.fullstack.edu.vn/f8-prod/courses/6.png"
+}
+Vậy là xong thao tác thủ công tạo 1 document cho collection
+
+Tìm hiểu Mongoose vào link: https://github.com/Automattic/mongoose
+Giúp làm việc với MongoDB chặt chẽ hơn
+Mongoose là công cụ giúp ta mô hình hóa cho Document của MongoDB, 
+nó được thiết kế để làm việc với môi trường bất đồng bộ (javascript)
+Hỗ trợ cả promises và callback
+==> lệnh cài npm i mongoose
+ ==> import vào
+//Using Node.js 'require()'
+const mongoose = require('mongoose') // 
+//Using ES6 imports
+import mongoose from 'mongoose'
+
+Tạo ra config (cấu hình) đơn giản cho MongoDB
+Tạo config/db/index.js
+
+Connect to MongoDB
+Trong db/index.js viết function để connect tới MongoDB
+Sau đó đi đến src/index.js để import db vào
+const route = require("./routes");
+const db = require("./config/db");
+
+//Connect to DB
+db.connect();
+
+Create - Tạo Model (Defining a Model) - Sử dụng 1 cái interface gọi là Schema 
+Ta đã taọ 1 collection là courses nên giờ cần tạo model cho courses 
+Tại thư mục app tạo file models/Course.js
+Sau khi cấu hình cho Model xong rồi thì ta sẽ sử dụng Model này để chọc vào Database
+Vào SiteController.js cấu hình
+  // [GET] /
+  async index(req, res) {
+    try {
+      const courses = await Course.find({});
+      res.json(courses);
+    } catch (error) {
+      res.status(400).json({ error: "ERROR!!!" });
+    }
+  }
+
+nó sẽ hiển thị dữ liệu trong DB lên giao diện
+
+------------------------
+
+Cài đặt JSON viewer cho Chrome để nhìn dữ liệu JSON hiển thị trên chrome
+Sửa Route methods trong file news.js và site.js route.use thành route.get
+Sửa lại resources path cũng trong src/index.js
+
+------------------------
+Sửa lại code (cách viết với promises) trong SiteController
+Giờ việc của ta là sửa lại giao diện HTML/CSS trang home để render các courses
+Để làm được thì ta cần truyền biến courses sang trang views/home.hbs - app.scss
+
+
+
+
+
+
+
 
 
 
