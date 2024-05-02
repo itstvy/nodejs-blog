@@ -1,5 +1,23 @@
+HTTP Protocol
+- là cách thức mà website của bạn được truyền tải qua internet 
+Khi bạn truy cập website thì nó tải rất là nhanh, bạn không nhận ra được điều gì vừa xảy ra
+Nhưng thực tế khi bạn gõ website và enter 1 cái
+> thì việc đầu tiên trình duyệt bạn sẽ gửi 1 cái yêu cầu (request) lên máy chủ (server)
+và nó dựa vào cái URL thì server biết được là nên trả về cái gì (ví dụ trả về trang chủ)
+thì server sẽ lấy dữ liệu trả về
+
+--------------------
+
+Nodejs
+Là 1 cái runtime environment (môi trường chạy) cho javascript
+npm init 
+
+npm install express
+
+--------------------
+
 npm i nodemon --save-dev
-Dùng nodemon để khi file có thay đổi thì nó sẽ tự động reload lại
+Dùng nodemon để khi file có thay đổi thì nó sẽ tự động reload lại server
 Không cần phải Ctrl C rồi chạy lại Server
 
 Thêm trong file package.json
@@ -31,9 +49,9 @@ giúp bạn có thể thấy được cái log của những request gửi lên 
 
 ------------
 
-
 Template engines (handlebars)
-Giúp viết html ở những nơi khác gọn gàng hơn
+Giúp viết file chứa code html ở những nơi khác gọn gàng hơn
+Nó tương tự như ta code html thủ công như viết html trong file index.html
 import 
 const { engine } = require("express-handlebars");
 
@@ -86,10 +104,13 @@ website render nó sẽ bị delay quá trình render
 
 ---------------------------------
 Basic Routing
-Định nghĩa tuyến đường để có thể truy cập vào website
+
+Routing: giúp bạn định nghĩa tuyến đường để có thể truy cập vào website
 URL sẽ sử dụng phương thức của giao thức HTTP (GET, POST, PUT, ... so on)
-Mỗi tuyến đường định nghĩa ra sẽ có thể có
-1 hoặc nhiều function handler ( 1 function để xử lý cái gì đó)
+
+Mỗi tuyến đường bạn định nghĩa ra sẽ có thể có
+1 hoặc nhiều function handler ( 1 function để xử lý cái việc gì đó)
+
 Ở đây function này nó sẽ thực thi cái route của bạn
 khi user truy cập vào website nó sẽ match (khớp) với cái route của bạn.
 Để định nghĩa cái route thì bạn tuân thủ theo cú pháp như sau:
@@ -109,7 +130,8 @@ Khi ta npm start là nó đang khởi tạo web server trên chính máy chúng 
 Tuy nhiên sau này bạn cũng chạy như này nhưng chạy trên cái máy chủ
 mà các bạn thuê ở bên ngoài thì các bạn sẽ gọi là Remote host/ Cloud server / Remote server
 
-HANDLER: là 1 function (hàm) sẽ được excuted (thực thi) khi mà cái route của chúng ta nó khớp
+HANDLER: trong javascript đa phần tất cả handler đang nhắc đến function chính là callback
+là 1 function (hàm) sẽ được excuted (thực thi) khi mà cái route của chúng ta nó khớp
 
 Ví dụ:
 app.get("/", (req, res) => {
@@ -139,7 +161,7 @@ Thì dựa vào yêu cầu đó bạn sẽ biết là thằng client nó muốn 
 
 Còn biến res: response
 Khi server nó nhận được cái request thì nó sẽ phải xử lý và khi nó xử lý xong
-thì ví dụ cần data thì nó sẽ trả về database để lấy dữ liệu và nó sẽ trả về client cho bạn
+thì ví dụ cần data thì nó sẽ vào database để lấy dữ liệu và nó sẽ trả về client cho bạn
 thì việc trả về nó sẽ phải chờ 1 chút tùy vào tốc độ internet của bạn và tùy vào
 cái logic xử lý phức tạp hay ko phức tạp
 Và khi việc xử lý xong, nó trả về cho client thì nó chính là những cái dữ liệu
@@ -167,10 +189,12 @@ thì chính việc render này nó vẫn là việc quyết định trả về c
 
 ---------------------
 Query Parameter
+
+
 Thường sử dụng trong phương thức GET
 là khái niệm giúp bạn có thể truyền được dữ liệu qua chính URL của bạn
-Ví dụ: google.com/search?q= nodejs
-thì gg sẽ tìm kiếm nodejs thay vì mình vào gg rồi mới tìm kiếm nodejs
+Ví dụ: google.com/search?q=nodejs
+thì gg sẽ tìm kiếm nodejs thay vì mình vào gg rồi mới tìm kiếm nodejs và nhấn enter
 
 google.com/search?q=nodejs
 
@@ -184,7 +208,7 @@ q=nodejs
 ---------------------
 Default behavior of HTML forms - Tìm hiểu hành vi mặc định của forms trong HTML
 Khi tạo ra 1 cái form có 1 cái button type: submit
-có input có name="q" thì khi bấm nút button nó sẽ thực hiện hành vi gọi là submit
+có 1 cái input có name="q" thì khi bấm nút button nó sẽ thực hiện hành vi gọi là submit
 và nó sẽ đính tất cả cái input có name ở trong form này lên thằng query parameter
 và với phương thức là GET.
 
@@ -196,7 +220,7 @@ fullName= Vy Nguyễn
 age= 18
 
 Thì mặc định form nó sẽ là submit dưới cái METHOD là GET
-thì có cách nào để chỉ định cái METHOD GET hay POST,... cho form khi bấm nút submit hay không?
+thì có cách nào để chỉ định cái METHOD GET hay POST cho form khi bấm nút submit hay không?
 ==> CÓ
 
 ở form mặc định nó sẽ là GET
@@ -258,7 +282,16 @@ app.post("/search", (req, res) => {
   res.send("");
 });
 
-Ở bài trước khi ta req.query thì nó sẽ trả về
+** Phân biệt hành vi của form dưới phương thức GET và POST
+==Với phương thức GET thì form sẽ được gửi đi dưới dạng query parameters đính trên URL
+==Với phương thức POST thì form sẽ được gửi đi dưới dạng form data và không đính trên URL
+
+Cái việc lấy dữ liệu khi gửi qua query parameter thì dùng
+req.query
+Còn gửi qua form data thì dùng
+req.body
+
+Ở bài trước khi ta req.query thì nó sẽ trả về được
 nhưng bài này req.body nó sẽ trả về undefine lý do là express nó chưa tích hợp
 nên ta sẽ sử dụng middleware để xử lý cái sự submit lên form cho chúng ta bằng cách khai báo
 ==> app.use(express.urlencoded());
@@ -313,12 +346,12 @@ Nhưng nếu dự án lớn thì sao quản lý được?
 Thì cái ưu điểm của mô hình MVC là việc bóc tách thành phần cho bạn
 ra thành 3 thành phần chính là Model, View, Controller
 View: chỉ chứa thành phần file view (HTML/CSS) thôi
-Model: là thành phần tương tác với data source, resource của ta thôi để ta tương tác lấy ra dữ liệu
+Model: là thành phần tương tác với data source, resource của ta thôi để ta tương tác lấy ra dữ liệu từ trong database
 Controller: là thành phần trung chuyển giữa View và Model, thì tại sao như vậy?
 
 Giả dụ khi gõ vào trình duyệt 1 cái website thì nó sẽ request lên server với HTTP protocol
-Đi qua Server bắt đầu nó đi lên tầng Routes sau đó nó đi đến tầng Dispatcher
-nghĩa là hành vi gọi sang Controller
+Đi qua Server bắt đầu nó đi lên tầng Routes (với phương thức gì, path gì, truy cập, thực thi đoạn code gì)
+sau đó nó đi đến tầng Dispatcher nghĩa là hành vi gọi sang Controller
 
 Khi routes định tuyến được đúng cái tuyến đường ta cần thì nó sẽ chọt vào thằng Controller tương ứng
 Ví dụ ở trang chủ ta cần lấy dữ liệu 
@@ -334,6 +367,7 @@ Trình duyệt nhận được và hiển thị ra website
 Nắm được cái mô hình này thì triển khai code dễ dàng!!!
 
 ----------------------------
+
 Ôn lại kiến thức
 Khi bạn đứng tại trình duyệt tức là đang đứng ở Browser chính là Client
 thì làm thể nào để gửi 1 cái Request lên Server? 
@@ -424,6 +458,7 @@ Controller tương tác với Model như nào? Bài sau nói !!!
 Trong bài này ta sẽ tách Routes, Controller, Model ra những thư mục khác
 
 -------------------------------
+
 Tạo thư mục Routes, app/controllers trong src
 Làm thế nào viết được những file trong mục routes, controllers
 
@@ -537,22 +572,59 @@ Trong courses > Add data > Insert Document > Add field > Insert
 Vậy là xong thao tác thủ công tạo 1 document cho collection
 
 Tìm hiểu Mongoose vào link: https://github.com/Automattic/mongoose
+Nó là trình điều khiển, nó đứng giữa thằng Nodejs và MongoDB 
+Khi bạn dùng Nodejs làm việc với MongoDB thì thằng Mongoose nó đứng giữa giúp bạn làm việc dễ dàng hơn
+
+Tính chất của MySQL - CSDL quan hệ thì tất cả những record trong 1 table của nó
+sẽ cùng có những cái field giống nhau, theo 1 tổ chức cố định theo format
+
+Nhưng document của MongoDB thì nó không nhất thiết cùng 1 format
+Ví dụ: 
+document 1:
+"name" : "vy",
+"id" : 123
+
+document 2:
+"id": 123,
+"test" : "test value"
+
+rõ ràng 2 document này khác nhau, không cùng cấu trúc nhưng vẫn tạo ra được
+
+Thì bắt đầu nó sinh ra những vấn đề như sau:
+*Ưu điểm: 
+- Bạn muốn sử dụng mỗi document không giống nhau thì dùng MongoDB quá hợp lý luôn
+- Không cần định nghĩa field, cứ insert document, field,.. thì nó ghi vào
+
+*Nhược điểm:
+- Nhưng nếu bạn muốn tạo ra CSDL mà nó có những đặc điểm giống nhau như: 
+các khóa học đều có field giống nhau như đều có tên, có mô tả, có ảnh,...
+Thì nếu sử dụng MongoDB thì ta sẽ cảm thấy không được chặt chẽ 
+
+Thế nên bạn sử dụng thằng Mongoose vào nó sẽ giúp bạn quản lý, mô hình hóa thằng document
+này dưới dạng đối tượng và nó sẽ giúp bạn quản lý những cái field chặt chẽ hơn.
+Nó giúp bạn định nghĩa ra 1 đối tượng, 1 document nó sẽ có những cái field gì, 
+kiểu dữ liệu của những field đó là gì,..
+
+==> Nên sử dụng Mongoose để làm việc với MongoDB dễ dàng hơn
+
+
 Giúp làm việc với MongoDB chặt chẽ hơn
 Mongoose là công cụ giúp ta mô hình hóa cho Document của MongoDB, 
-nó được thiết kế để làm việc với môi trường bất đồng bộ (javascript)
-Hỗ trợ cả promises và callback
+nó được thiết kế để làm việc với môi trường bất đồng bộ (môi trường của javascript)
+Hỗ trợ cả promises và callback để xử lý bất đồng bộ
 ==> lệnh cài npm i mongoose
+
+Cách sử dụng mongoose:
  ==> import vào
 //Using Node.js 'require()'
-const mongoose = require('mongoose') // 
-//Using ES6 imports
-import mongoose from 'mongoose'
+const mongoose = require('mongoose') 
 
 Tạo ra config (cấu hình) đơn giản cho MongoDB
 Tạo config/db/index.js
+Viết ra hàm để connect với MongoDB:
 
-Connect to MongoDB
-Trong db/index.js viết function để connect tới MongoDB
+==> Connect to MongoDB
+Trong db/index.js tạo ra 1 function tên là connect  để connect tới MongoDB
 Sau đó đi đến src/index.js để import db vào
 const route = require("./routes");
 const db = require("./config/db");
@@ -564,6 +636,8 @@ Create - Tạo Model (Defining a Model) - Sử dụng 1 cái interface gọi là
 Ta đã taọ 1 collection là courses nên giờ cần tạo model cho courses 
 Tại thư mục app tạo file models/Course.js
 Sau khi cấu hình cho Model xong rồi thì ta sẽ sử dụng Model này để chọc vào Database
+Theo mô hình MVC => Đứng từ Controller chọc sang Model để lấy dữ l
+
 Vào SiteController.js cấu hình
   // [GET] /
   async index(req, res) {
@@ -587,6 +661,235 @@ Sửa lại resources path cũng trong src/index.js
 Sửa lại code (cách viết với promises) trong SiteController
 Giờ việc của ta là sửa lại giao diện HTML/CSS trang home để render các courses
 Để làm được thì ta cần truyền biến courses sang trang views/home.hbs - app.scss
+
+------------------------
+Code Detail Courses
+Ta đã code giao diện các khóa học tại trang home.
+Nhiệm vụ bài này ta sẽ làm trang chi tiết của từng khóa học
+Khi ta ở trang chủ thì URL ta là: http://localhost:3000/
+Khi ta click vào từng khóa học thì URL ta sẽ phải thay đổi ví dụ như:
+http://localhost:3000/html-css
+Thì cái html-css: gọi là slug
+Ví dụ khóa HTML & CSS sẽ là: /html-css, Javascript cơ bản thì là: /js-co-backend
+Mỗi khóa học sẽ có 1 cái slug khác nhau, Từ cái slug ta sẽ truyền lên URL
+Bởi cái tính chất nó khác nhau, mỗi một khóa học là 1 slug duy nhất
+ > để ta có thể tìm được khóa học duy nhất trong database
+
+Thì cái slug này ta phải tự thêm vào trong database thôi
+Công việc của bài này sẽ là như này
+Khi ta click vào 1 khóa học nào đó, nó cần phải chuyển hướng đên URL như ví dụ:
+http://localhost:3000/html-css nhưng ta chưa cấu hình URL thì sao mà có
+
+Trước hết vào home.hbs cấu hình, dùng thẻ a vào để chuyển hướng this.slug
+Tiếp theo đi viết routes cho nó > tạo file routes/courses.js và CourseController
+Thêm thằng courses vào index.js app.get("/courses", courseRouter)
+Khi truy cập vào URL có path /courses nó sẽ match với thằng "/courses"
+và nó sẽ nhào vào thằng courseRouter và nó thấy cái /:slug
+Thì nó sẽ tự match với thằn slug của từng khóa học
+sau đó nó lao vào coursesController có phương thức show thì nó sẽ res.send("COURSE DETAIL)
+
+Giờ ta cần lấy ra chuỗi html-css vì phải dựa vào chuỗi slug này thì mới biết chọc vào database 
+để lấy bản ghi nào, lấy cái nào có đúng thằng có slug là html-css để làm giao diện
+
+Cách lấy chuỗi slug
+class CourseController {
+  // [GET] /courses/:slug
+  show(req, res, next) {
+    Course.findOne({ slug: req.params.slug })
+      .then((course) => {
+        res.json(course);
+      })
+      .catch(next);
+  }
+}
+
+Giờ làm giao diện tạo trong thư mục views courses/show.hbs
+Có chỉnh sửa trong CourseController
+
+---------------------------
+
+Create Course - Tạo khóa học
+Cấu hình route cho nó trước ví dụ: /courses/create
+Vào courses.js thêm router.get("/create", courseController.create);
+
+Vào CourseController để tạo phương thức create cho hành động tạo mới này.
+Thêm cấu hình create vào test thử tuyến đường courses/create
+
+Sau đó tạo file views cho nó là courses/create.hbs và viết UI cho nó
+Giờ ta sẽ đi điều chỉnh hành vi của form - xem lại bài Query Parameters + Form default behavior
+
+Thêm phương thức POST với action="/courses/store"
+Tại routes/courses.js cấu hình thêm tuyến đường với phương thức POST router.post 
+và trỏ vào thằng (/store) để nó lao vào thằng store trong CourseController
+
+Thì khi ta submit form của create.hbs nó sẽ submit dữ liệu sang path đã đặt trong action="/courses/store" 
+và nó sẽ lọt vào thằng store trong CourseController
+Thế nên việc lưu dữ liệu ta sẽ xử lý ở thằng store trong CourseController
+
+Còn việc hiển thị form create thì ta ở xử lý ở thằng create trong CourseController
+
+Giờ thì test thử điền vào form và submit xem nó đã hiển thị dữ liệu ta đã nhập vào form chưa.
+  store(req, res, next) {
+    res.json(req.body);
+  }
+Sau khi hiển thị dữ liệu rồi ta sẽ lưu nó vào database
+  store(req, res, next) {
+    const formData = req.body;
+    formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+    const course = new Course(formData);
+    course.save();
+  }
+Lưu ý muốn lưu những cái trường dữ liệu như "name", "description",v.v
+Thì phải đảm bảo trong model phải định nghĩa tất cả các trường đó thì nó mới lưu được
+==> nên kiểm tra file courses.js trong folder Model
+Sau khi cấu hình lưu dữ liệu mới vào database và đẩy nó về trang chủ:
+  store(req, res, next) {
+    const formData = req.body;
+    formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+    const course = new Course(formData);
+    course
+      .save()
+      .then(() => res.redirect("/"))
+      .catch((error) => {});
+  }
+
+Thì ta sẽ đi cấu hình slug cho các khóa mới tạo, vì ta đâu thể nào điền slug vào khi tạo.
+Ta sẽ sử dụng thư viện
+npm i mongoose-slug-generator nó là 1 plugin cho thằng mongoose
+Thế nên mở file model ra và ta sẽ add thằng plugin này trong file model luôn
+Cấu hình
+ slug: { type: String, slug: "name", unique: true },
+unique là duy nhất, để nó không trùng slug với thằng khóa học khác (nếu có trường hợp tạo 1 thằng y chang)
+Khi lỡ tạo 1 khóa học giống cái đã từng tạo thì thằng slug nó sẽ tạo 1 chuỗi short-hand ngắn để phân biệt
+
+-------------------------------
+
+Update Course - Tạo trang Chỉnh sửa và cập nhật khóa học
+
+Đầu tiên vào sửa UI patials/header 1 chút
+Trước khi ta làm form chỉnh sửa ý, thì ta phải có 1 cái trang quản lý những khóa học đã đăng
+Thêm giao diện và cấu hình route cho thằng me
+        <li class="nav-item">
+          <a class="nav-link" href="/me/stored/courses">Khóa học của tôi</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/me/stored/courses">Bài viết của tôi</a>
+        </li>
+Cứ review code là biết cấu hình chỗ nào
+
+--------------------------------
+
+Delete Course - Xóa khóa học
+Xây dựng UI nút xóa khóa học trong stored-courses.hbs (Khóa học của tôi)
+Sau đó thêm form xác nhận xóa khi click vào nút xóa
+Vào routes/courses.js set tuyến đường xóa cho nó
+router.delete("/:id", courseController.destroy);
+và xử lý logic function handler destroy cho nó
+ta sẽ xóa bằng id và chuyến hướng về lại trang "Khóa học của tôi" sau khi xóa
+
+Vào stored-courses.hbs để xử lý thêm để xóa bằng id
+Khi click vào nút xóa thì nó sẽ lấy id của khóa học 
+và khi click vào nút xác nhận xóa thì nó cũng phải lấy id
+
+--------------------------------
+
+Soft delete - Kỹ thuật xóa mềm 
+Xóa mềm là gì? Nó được hiểu là Không xóa thật!!
+
+Thế nào là không xóa thật? 
+== Khi bạn click vào xóa và xóa bỏ nó, thì bạn sẽ không thấy nó hiển thị trên giao diện nữa
+== Nhưng trong database nó vẫn còn tồn tại
+
+Khi nào cần sử dụng kỹ thuật này?
+Khi ta tương tác với những dữ liệu cần đối soát, cần truy vết, liên quan tới đơn hàng
+tiền tệ, dữ liệu nhạy cảm,.. hoặc bất cứ dữ liệu nào mà bạn cảm thấy sau này mình cần để đối soát, truy vết
+
+Với phương thức deleteOne trong mongoose nó sẽ xóa thật luôn, trong DB sẽ không còn.
+Nên ta sẽ sửa lại code 
+Ta sẽ xóa theo kiểu là sẽ thêm một cái field vào Database
+
+Vào models/courses.js để thêm thành phần ghi đè
+Course.plugin(mongooseDelete, {
+  deletedAt: true,
+  overrideMethods: "all",
+});
+
+Thêm UI khi không có khóa học nào trong "Khóa học của tôi"
+
+Tạo thùng rác để khôi phục khóa học đã xóa
+Thêm UI cho thùng rác trash.courses.hbs
+Và thêm chức năng khôi phục, xóa vĩnh viễn
+
+--------------------------
+
+Kế nút thùng rác phải có (số lượng khóa học) muốn xóa
+Viết lại storedCourses trong MeController để đếm số lượng khóa học đã xóa trong thùng rác
+
+--------------------------
+
+Select all with checkbox 
+
+--------------------------
+
+Khái niệm Middleware trong express
+
+Tại sao lại học  Middleware?
+Vì trong thực tế, những trang quản lý rất là nhiều (quản lý nhân viên, khóa học, sinh viên, bình luận,...)
+Tất cả những trang quản lý đó đều có chức năng sắp xếp (ví dụ: sắp xếp theo tên, theo ngày tạo,..)
+Thì mỗi lần code chức năng đó ta phải code vào controller. Và nếu controller cần nhiều chức năng sắp xếp thì sao?
+thì sẽ ta sẽ phải đi copy lại đoạn code đó thì nó sẽ bị lặp lại code, rất mất thời gian.
+
+=> Và để giải quyết vấn đề này thì ta sẽ cần sử dụng middleware, ta sẽ viết nó ra 1 cái function chung.
+ Thì mỗi khi ta cần chức năng sắp xếp thì ta chỉ cần code 1,2 dòng thôi là đã có chức năng đó rồi
+
+Middleware là một phần mềm trung gian (đứng giữa các thành phần trong mô hình phần mềm).
+Nó làm những nhiệm vụ: kết nối, trung chuyển,, kiểm soát giữa các thành phần.
+
+Ví dụ:
+Từ Browser (Client) gửi request lên Server (Web Server)
+và từ Server sẽ xử lý phản hồi (response) lại cho Client
+
+Thì khi request lên Server, có 1 ông sẽ đứng chặn ở trước cửa Server
+và ông này sẽ kiểm tra xem request này có hợp lệ không, có quyền truy cập không,
+có gửi dữ liệu linh tinh không,.. thì ông này chính là Middleware (Middleware giống như bảo vệ ý)
+
+Đây chỉ là ví dụ dễ hiểu.
+
+Middleware có thể tồn tại ở client, ở server, ở database, ở hệ thống, ở mọi nơi
+Miễn sao nó đứng giữa 2 thành phần nào đó và nó có thể thực hiện những nhiệm vụ như: kiểm tra, xử lý,..
+Nói chung vai trò của nó giống như bác bảo vệ và làm những nhiệm vụ như bảo vệ thì ta mới gọi là middleware
+
+Vai trò của middleware
+1. Kiểm soát - validation
+2. Không cho phép vào (ví dụ không cho phép client gửi request linh tinh)
+3. Cho phép vào 
+4. Chỉnh sửa / thay đổi dữ liệu - modification
+
+Middleware trong Express
+
+----------------------------
+
+Xây dựng Middleware cho chức năng sắp xếp
+Tạo thư mục app/middlewares
+Tạo file sortMiddleware.js
+
+Sử dụng helpers trong index.js để xử lý chức năng sắp xếp
+Thêm chức năng sắp xếp cho trang "Khóa học của tôi" 
+Xử lý helpers cho tên khóa học, trình độ, thời gian tạo
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 

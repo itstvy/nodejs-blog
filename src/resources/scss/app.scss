@@ -1,5 +1,15 @@
 @import 'variables';
 
-.card-course-item{
+.card-course-item {
     margin-top: 20px;
+}
+
+.checkbox-select-all-options {
+    width: 180px;
+    margin: 0 16px;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
 }

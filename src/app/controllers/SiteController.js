@@ -1,4 +1,4 @@
-const Course = require("../models/Course");
+const Course = require("../models/Course"); //import Course model từ file models/Course.js
 const { multipleMongooseToObject } = require("../../util/mongoose");
 
 class SiteController {
@@ -6,12 +6,13 @@ class SiteController {
   index(req, res, next) {
     Course.find({})
       .then((courses) => {
-        res.render("home", {
+       res.render("home", {
           courses: multipleMongooseToObject(courses),
         });
       })
       .catch(next);
   }
+  
   // [GET] /search
   search(req, res) {
     res.render("search");

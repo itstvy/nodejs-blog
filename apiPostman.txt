@@ -342,7 +342,7 @@ bằng cách gửi các yêu cầu với token không cấp quyền truy cập v
 Token: là một chuỗi ký tự được sử dụng để xác thực người dùng 
 và cấp quyền truy cập vào các tài nguyên của hệ thống.
 Token thường được tạo ra bởi Server và gửi đến Client sau khi người dùng đăng nhập thành công. 
-Client
+
 
 Tester sẽ kiểm tra xem token có hợp lệ hay không bằng cách gửi yêu cầu đến server với token. 
 Server sẽ trả về lỗi nếu token không hợp lệ. 
@@ -362,11 +362,65 @@ bằng cách kiểm tra cookie trong trình duyệt.
 bằng cách truy cập vào các trang web khác nhau 
 và kiểm tra xem cookie có được cập nhật hay không.
 
+--------------------------
 
+Phân biệt Integration Testing và Regression Testing
 
+== Integration Testing - Test tích hợp
+- Là kỹ thuật test nhằm xác minh xem các module riêng lẻ hoạt động tốt với nhau sau khi được tích hợp hay không.
+Mục đích:
+- Đảm bảo các module được tích hợp hợp lý và không gây ra xung đột hoặc lỗi khi hoạt động chung.
+- Đảm bảo dữ liệu được truyền tải chính xác giữa các module.
+- Mặc dù mỗi module đều được unit test nhưng các lỗi vẫn còn tồn tại như:
+ + Khi tích hợp hệ thống các module có thể không tương thích với cấu hình chung của hệ thống
+ + Do tích hợp các module nên có thể phát sinh vấn đề về hiệu suất
+ + Giao diện và cơ sở dữ liệu của các module có thể chưa hoàn chỉnh khi tích hợp
+Các phương pháp kiểm thử tích hợp:
+- Big Bang: tích hợp tất cả module cùng 1 lúc, sau đó tiến hành kiểm thử
+- Incremental: tích hợp hai hoặc nhiều module có liên quan đến logic để kiểm thử, sau đó thêm các module liên quan khác vào và tiếp tục cho đến khi tất cả các module được thêm và hoàn thành kiểm thử.
+Incremental được chia ra 2 phương pháp
++ Bottom Up:  tích hợp từ dưới lên, mỗi module ở các cấp thấp hơn được kiểm thử với các module cao hơn cho đến khi tất cả các module được kiểm thử.
++ Top Down: ngược lại.
 
+== Regression Testing - Test hồi quy
+- Là kỹ thuật test nhằm xác minh các chức năng hoặc toàn bộ hệ thống vẫn hoạt động tốt sau khi có sự thay đổi.
+- Mục đích là: đảm bảo các sự thay đổi mới không ảnh hưởng tiêu cực đến các chức năng cũ.
+- Sau khi sửa lỗi, cần kiểm tra xem lỗi đã được sửa chưa, có lỗi nào mới phát sinh không.
+- Sau khi cập nhật phần mềm, cần kiểm tra xem phần mềm có hoạt động ổn định, chính xác không.
+Ví dụ ta có ứng dụng bán hàng trực tuyến
+Hiện đang có chức năng thanh toán bằng thẻ tín dụng, tài khoản ngân hàng.
+Giờ chức năng thanh toán bằng ví điện tử đã được thêm vào
+Thì tester cần đảm bảo chức năng thanh toán (thẻ tín dụng, tài khoản ngân hàng) vẫn hoạt động ổn định.
+Và đảm bảo chức năng thanh toán bằng ví điện tử hoạt động tốt và tích hợp tốt với các chức năng khác
 
+Vậy Regression Test/ Integration Testing là mình sẽ test cả system hay chỉ 1 vài chức năng liên quan?
+Mình phân tích từ vựng xíu nha:
+Tích hợp: kết nối những thứ liên quan với nhau.
+Hồi quy: là quay lại tất cả mọi thứ.
 
+==> Vậy quay lại câu hỏi test cả system/ chỉ 1 chức năng:
+Tích hợp: mình sẽ test những chức năng liên quan với nhau > cách thức test như e có nêu ở trên 2 phương thức
+Hồi quy: bắt buộc e sẽ test cả system để đảm bảo mọi chức năng hoạt động tốt
 
+Vậy sự liên quan giữa Authorization với Cookie nó như thế nào?
 
+=> Nó liên quan dựa trên token
+Cookie lưu trữ trạng thái hoạt động của user
+Nếu user logout thì token clear > Cookie clear luôn trạng thái hoạt động của user
+Như em login vô, nó dựa theo token biết em đang hoạt động và hiển thị
+em logout > token clear > hết hiệu lực là em off
 
+Em dùng chrome > em login vô gmail >em  tìm thông tin gì đó 
+=> nó sẽ lưu or đề xuất cho em khi me nhập 1 thông tin nào đó có từ giống với em đã từng tìm kiếm
+=> nhưng khi em logout thì hầu như mấy cái em tìm thì sẽ không đề xuất cho em nữa
+
+Ví dụ dễ hình dung hơn, em có 2 account facebook:
+Em dùng account 1 em tìm bạn bè có tên ABC  > logout
+sau đó em login account 2 thì chỗ tìm bạn bè nó hiện ABC không ?
+
+=> KHÔNG, 2 account khác nhau mà sao mà hiện ABC được
+
+nhưng em login account 1 lại thì cái em thấy là gì?
+=> ABC
+
+===> BẢN CHẤT NÓ LÀ VẬY

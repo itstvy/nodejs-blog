@@ -1,0 +1,34 @@
+<div class="mt-4">
+  <h3> Cập nhật khóa học</h3>
+
+  <form class="mt-4" method="POST" action="/courses/{{course._id}}?_method=PUT">
+    <div class="form-group">
+      <label for="name">Tên khóa học</label>
+      <input type="text" name="name" value="{{course.name}}" class="form-control" id="name" />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Mô tả</label>
+      <textarea name="description" class="form-control" id="description">{{course.description}}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="videoId">Video ID</label>
+      <input type="text" name="videoId" value="{{course.videoId}}" class="form-control" id="videoId" />
+    </div>
+
+    <div class="form-group">
+      <label for="level">Trình độ</label>
+      <input type="text" name="level" value="{{course.level}}" class="form-control" id="level" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu lại</button>
+  </form>
+
+</div>
+
+{{!-- //dùng textarea để nhập mô tả khóa học thì sẽ hiển thị nhiều dòng hơn
+//và textarea sẽ hiển thị nút Enter để xuống dòng khi nhập dữ liệu
+//còn input thì chỉ hiển thị 1 dòng và không có nút Enter
+//vì vậy, khi nhập mô tả khóa học, chúng ta nên sử dụng textarea
+//Tuy nhiên nó không có type và value như input mà chỉ có value ở giữa thẻ mở và đóng --}}
